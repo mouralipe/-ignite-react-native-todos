@@ -54,7 +54,8 @@ export function MyTasksList({ tasks, onLongPress, onPress }: MyTasksListProps) {
       }}
       style={{
         marginHorizontal: 24,
-        marginTop: 32
+        marginTop: 32,
+        backgroundColor: '#eee'
       }}
     />
   )
@@ -64,7 +65,8 @@ const styles = StyleSheet.create({
   header: {
     color: '#3D3D4D',
     fontSize: 24,
-    fontFamily: 'Poppins-SemiBold'
+    fontFamily: 'Poppins-SemiBold',
+    fontWeight: 'bold',
   },
   taskButton: {
     flex: 1,

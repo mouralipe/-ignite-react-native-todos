@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { View } from 'react-native';
 
 import { Header } from '../components/Header';
 import { MyTasksList } from '../components/MyTasksList';
@@ -56,7 +57,7 @@ export function Home() {
   }
 
   return (
-    <>
+    <View style={{ backgroundColor: '#eee', height: '100%' }}>
       <Header />
 
       <TodoInput addTask={handleAddTask} />
@@ -66,6 +67,6 @@ export function Home() {
         onPress={handleMarkTaskAsDone} 
         onLongPress={handleRemoveTask} 
       />
-    </>
+    </View>
   )
 }
