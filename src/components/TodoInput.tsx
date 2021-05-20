@@ -21,6 +21,7 @@ export function TodoInput({ addTask }: TodoInputProps) {
       <TextInput 
         style={styles.input} 
         placeholder="Adicionar novo todo..."
+        placeholderTextColor="#888"
         returnKeyType="send"
         value={task}
         onChangeText={setTask}
