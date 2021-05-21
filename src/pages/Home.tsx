@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import { Header } from '../components/Header';
 import { MyTasksList } from '../components/MyTasksList';
 import { TodoInput } from '../components/TodoInput';
+import { useChangeTheme } from '../contexts/ThemeContext';
 
 interface Task {
   id: number;
@@ -12,6 +13,8 @@ interface Task {
 }
 
 export function Home() {
+  const { isDark } = useChangeTheme();
+
   const [tasks, setTasks] = useState<Task[]>([]);
 
   function handleAddTask(newTaskTitle: string) {
@@ -57,7 +60,7 @@ export function Home() {
   }
 
   return (
-    <View style={{ backgroundColor: '#eee', height: '100%' }}>
+    <View style={{ backgroundColor: isDark ? '#1f1f1f' : '#eee', height: '100%' }}>
       <Header />
 
       <TodoInput addTask={handleAddTask} />

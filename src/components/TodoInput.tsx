@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { Image, Platform, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
 import checkIcon from '../assets/icons/Check.png';
+import { useChangeTheme } from '../contexts/ThemeContext';
 
 interface TodoInputProps {
   addTask: (task: string) => void;
 }
 
 export function TodoInput({ addTask }: TodoInputProps) {
+  const { isDark } = useChangeTheme();
+
   const [task, setTask] = useState('');
 
   function handleAddNewTask() {
@@ -17,9 +20,9 @@ export function TodoInput({ addTask }: TodoInputProps) {
   }
 
   return (
-    <View style={[styles.inputContainer, Platform.OS === 'ios' ? styles.inputIOSShadow : styles.inputAndroidShadow]}>
+    <View style={[isDark ? styles.inputContainerDark : styles.inputContainer , Platform.OS === 'ios' ? styles.inputIOSShadow : styles.inputAndroidShadow]}>
       <TextInput 
-        style={styles.input} 
+        style={isDark ? styles.inputDark : styles.input} 
         placeholder="Adicionar novo todo..."
         placeholderTextColor="#888"
         returnKeyType="send"
@@ -31,7 +34,7 @@ export function TodoInput({ addTask }: TodoInputProps) {
       <TouchableOpacity
         testID="add-new-task-button"
         activeOpacity={0.7}
-        style={styles.addButton}
+        style={isDark ? styles.addButtonDark : styles.addButton}
         onPress={handleAddNewTask}
         //TODO - onPress prop
       >
@@ -51,10 +54,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  inputContainerDark: {
+    backgroundColor: '#303030',
+    borderRadius: 5,
+    marginTop: -25,
+    marginHorizontal: 40,
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   input: {
     flex: 1,
     backgroundColor: '#F5F4F8',
     color: '#3c446d',
+    paddingLeft: 12,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
+  },
+  inputDark: {
+    flex: 1,
+    backgroundColor: '#303030',
+    color: '#E1E1E6',
     paddingLeft: 12,
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
@@ -73,6 +93,15 @@ const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor: '#3FAD27',
+    height: 50,
+    paddingHorizontal: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+  },
+  addButtonDark: {
+    backgroundColor: '#181818',
     height: 50,
     paddingHorizontal: 16,
     justifyContent: 'center',

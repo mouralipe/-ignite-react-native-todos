@@ -1,10 +1,15 @@
 import React from 'react';
 import { FlatList, TouchableOpacity, View, Text, StyleSheet, FlatListProps } from 'react-native';
+import { useChangeTheme } from '../contexts/ThemeContext';
 
-function FlatListHeaderComponent() {
+interface FlatListHeaderComponentProps {
+  isDark: boolean;
+}
+
+function FlatListHeaderComponent({ isDark }: FlatListHeaderComponentProps) {
   return (
     <View>
-      <Text style={styles.header}>Minhas tasks</Text>
+      <Text style={isDark ? styles.headerDark : styles.header}>Minhas tasks</Text>
     </View>
   )
 }
@@ -20,6 +25,8 @@ interface MyTasksListProps {
 }
 
 export function MyTasksList({ tasks, onLongPress, onPress }: MyTasksListProps) {
+  const { isDark } = useChangeTheme();
+
   return (
     <FlatList
       data={tasks}
@@ -31,31 +38,31 @@ export function MyTasksList({ tasks, onLongPress, onPress }: MyTasksListProps) {
             activeOpacity={0.7}
             onPress={() => onPress(item.id)}
             onLongPress={() => onLongPress(item.id)}
-            style={item.done ? styles.taskButtonDone : styles.taskButton}
+            style={item.done ? (isDark ? styles.taskButtonDoneDark : styles.taskButtonDone) : styles.taskButton}
             //TODO - use onPress, onLongPress and style props
           >
             <View 
               testID={`marker-${index}`}
               //TODO - use style prop 
-              style={item.done ? styles.taskMarkerDone : styles.taskMarker}
+              style={item.done ? (isDark ? styles.taskMarkerDoneDark : styles.taskMarkerDone) : (isDark ? styles.taskMarkerDark : styles.taskMarker)}
             />
             <Text 
               //TODO - use style prop
-              style={item.done ? styles.taskTextDone : styles.taskText}
+              style={item.done ? (isDark ? styles.taskTextDoneDark :styles.taskTextDone) : (isDark? styles.taskTextDark : styles.taskText)}
             >
               {item.title}
             </Text>
           </TouchableOpacity>
         )
       }}
-      ListHeaderComponent={<FlatListHeaderComponent />}
+      ListHeaderComponent={<FlatListHeaderComponent isDark={isDark} />}
       ListHeaderComponentStyle={{
         marginBottom: 20
       }}
       style={{
         marginHorizontal: 24,
         marginTop: 32,
-        backgroundColor: '#eee'
+        backgroundColor: isDark ? '#1F1F1F' : '#eee'
       }}
     />
   )
@@ -64,6 +71,12 @@ export function MyTasksList({ tasks, onLongPress, onPress }: MyTasksListProps) {
 const styles = StyleSheet.create({
   header: {
     color: '#3D3D4D',
+    fontSize: 24,
+    fontFamily: 'Poppins-SemiBold',
+    fontWeight: 'bold',
+  },
+  headerDark: {
+    color: '#BF4AD4',
     fontSize: 24,
     fontFamily: 'Poppins-SemiBold',
     fontWeight: 'bold',
@@ -85,8 +98,19 @@ const styles = StyleSheet.create({
     borderColor: '#3D3D4D',
     marginRight: 10
   },
+  taskMarkerDark: {
+    height: 16,
+    width: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#12A952',
+    marginRight: 10
+  },
   taskText: {
     color: '#3D3D4D',
+  },
+  taskTextDark: {
+    color: '#e1e1e6',
   },
   taskButtonDone: {
     flex: 1,
@@ -98,6 +122,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  taskButtonDoneDark: {
+    flex: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 12,
+    marginBottom: 4,
+    borderRadius: 4,
+    backgroundColor: '#222222',
+    opacity: 0.6,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   taskMarkerDone: {
     height: 16,
     width: 16,
@@ -105,8 +140,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#273FAD',
     marginRight: 10
   },
+  taskMarkerDoneDark: {
+    height: 16,
+    width: 16,
+    borderRadius: 8,
+    backgroundColor: '#12a952',
+    marginRight: 10
+  },
   taskTextDone: {
     color: '#A09CB1',
+    textDecorationLine: 'line-through'
+  },
+  taskTextDoneDark: {
+    color: 'rgba(225, 225, 230, 0.6)',
     textDecorationLine: 'line-through'
   }
 })
